@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>Prerit Bhandari - My portfolio</title>
+</head>
+<body>
+
+
+<div id="loading">
+
+    loading.................   
+</div>
+
+
+<div class="reposs" style="height: 0;">
+              <h1 id="projects">My Projects</h1>
+              <ul id="repo-list" ></ul>
+              <p id="githubko">
+    Check me Guyz on <a id="githubLink">Github</a>
+</p>
+</div>
+
+
+<p id="tweet"><a class="twitter-timeline" data-width="300" data-height="400" data-theme="dark" href="https://twitter.com/bhandari_prerit?ref_src=twsrc%5Etfw">Tweets by bhandari_prerit</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> </p>
+<div class="main" id="mainContainer" hidden>
+
+
+<img    
+    id="profileImage"
+    height="200"
+    width="200"    
+>
+<h2 id="fullName"></h2>
+<p></p>
+<h5 id="publicRepos"></h5>
+<h5 id="followersInformation"></h5>
+
+</div>
+<script>
+        fetch("https://api.github.com/users/preritbhandari")
+        .then(response => response.json())
+        .then(function(data){
+            console.log(data)
+
+            let followersCount = data['followers']
+            let followersInfo = `Total no of Followers: ${followersCount} `
+            let publicReposCount = data['public_repos']
+            let publicReposInfo = `Total Public Repositories: ${publicReposCount}`
+            document.getElementById('profileImage').src=data['avatar_url']
+            document.getElementById('fullName').textContent=data['name']
+            document.getElementById('followersInformation').textContent= followersInfo
+            document.getElementById('publicRepos').textContent=publicReposInfo
+            document.getElementById('githubLink').href=data['html_url']
+            // document.getElementById('repositories').src=data['repos_url']
+
+            document.getElementById('mainContainer').hidden= false
+            document.getElementById('loading').hidden= true
+        }
+        )
+    
+
+        //fetch repos
+        fetch("https://api.github.com/users/preritbhandari/repos")
+        .then(response => response.json())
+        .then(function(repoData){
+        repoData.forEach((repo)=> {
+            console.log(repo.name)
+
+
+    //creating a <li> tag
+	    const liNode = document.createElement("li");
+	    liNode.classList.add("list-item");
+
+
+	    const headingNode = document.createElement("h3");
+	    const name = document.createTextNode(repo.name);
+	    //adding text to heading
+	    headingNode.appendChild(name);
+	    
+	    //adding text to heading
+	    headingNode.appendChild(name);
+
+	    
+
+	    // append every detail to li tag
+	    liNode.appendChild(headingNode);
+	    
+
+	    // appendChild to the ul tag
+	    document.getElementById("repo-list").appendChild(liNode);
+	  })
+        })
+
+
+</script>
+
+
+<style>
+
+    *{
+        text-align: top;
+        background-color: black;
+        color:skyblue;
+        padding-left: 5px;
+        padding-right: 5px;
+        list-style: none;
+    }
+
+
+    #repo-list,#githubko{
+
+    	text-align:center;
+    	padding-top: 70px;
+    }
+
+
+    #projects{
+        text-align: center;
+        opacity: 0.7;
+        height: 0;
+    }
+
+
+    #repositories{
+        opacity: 1;
+        color:red;
+        padding-left: 30%;
+    }
+
+
+    #projects:hover{
+        opacity: 1;
+        color:white;
+    }
+
+
+    #tweet{
+        text-align: right;
+        height:0px;
+    }
+
+    #mainContainer{
+
+    	float: left;
+    }
+
+</style>
+</body>
+</html>
